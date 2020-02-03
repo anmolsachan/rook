@@ -7,8 +7,8 @@
 apiVersion: ceph.rook.io/v1
 kind: CephBlockPool
 metadata:
-  name: replicapool
-  namespace: rook-ceph
+  name: replicapoolfs
+  namespace: openshift-storage-external
 spec:
   # The failure domain will spread the replicas of the data across different failure zones
   failureDomain: host

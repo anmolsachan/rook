@@ -7,8 +7,8 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: myfs
-  namespace: rook-ceph
+  name: myfstest
+  namespace: openshift-storage-external
 spec:
   # The metadata pool spec. Must use replication.
   metadataPool:

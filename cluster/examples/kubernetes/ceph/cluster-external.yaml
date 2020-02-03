@@ -14,11 +14,13 @@ apiVersion: ceph.rook.io/v1
 kind: CephCluster
 metadata:
   name: rook-ceph-external
-  namespace: rook-ceph-external
+  namespace: openshift-storage-external
 spec:
   external:
     enable: true
   dataDirHostPath: /var/lib/rook
   # providing an image is optional, do this if you want to create other CRs (rgw, mds, nfs)
   cephVersion:
-    image: ceph/ceph:v14.2.6 # MUST match external cluster version
+    image: registry.redhat.io/ocs4/rhceph-rhel8 # MUST match external cluster version
+  #network:
+    # hostNetwork: true
