@@ -58,6 +58,11 @@ func GetServiceMonitor(filePath string) (*monitoringv1.ServiceMonitor, error) {
 	return &servicemonitor, nil
 }
 
+// GetNewServiceMonitorRelabeConfig returns serviceMonitor object or an error
+func GetNewServiceMonitorRelabeConfig(targetLabel string, replacement string) *monitoringv1.RelabelConfig {
+	return &monitoringv1.RelabelConfig{TargetLabel: targetLabel, Replacement: replacement}
+}
+
 // CreateOrUpdateServiceMonitor creates serviceMonitor object or an error
 func CreateOrUpdateServiceMonitor(serviceMonitorDefinition *monitoringv1.ServiceMonitor) (*monitoringv1.ServiceMonitor, error) {
 	ctx := context.TODO()

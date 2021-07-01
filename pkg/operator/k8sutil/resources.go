@@ -125,6 +125,11 @@ func (info *OwnerInfo) GetUID() types.UID {
 	return info.owner.GetUID()
 }
 
+// GetName gets the name of the owner
+func (info *OwnerInfo) GetName() string {
+	return info.owner.GetName()
+}
+
 func MergeResourceRequirements(first, second v1.ResourceRequirements) v1.ResourceRequirements {
 	// if the first has a value not set check if second has and set it in first
 	if _, ok := first.Limits[v1.ResourceCPU]; !ok {

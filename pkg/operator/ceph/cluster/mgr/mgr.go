@@ -27,6 +27,7 @@ import (
 	"github.com/banzaicloud/k8s-objectmatcher/patch"
 	"github.com/coreos/pkg/capnslog"
 	"github.com/pkg/errors"
+	monitoringv1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	cephv1 "github.com/rook/rook/pkg/apis/ceph.rook.io/v1"
 	"github.com/rook/rook/pkg/clusterd"
 	cephclient "github.com/rook/rook/pkg/daemon/ceph/client"
@@ -452,6 +453,14 @@ func (c *Cluster) EnableServiceMonitor(activeDaemon string) error {
 	}
 	serviceMonitor.Spec.NamespaceSelector.MatchNames = []string{c.clusterInfo.Namespace}
 	serviceMonitor.Spec.Selector.MatchLabels = c.selectorLabels(activeDaemon)
+
+	// Add the ceph cluster CR name as a lebel
+	relabelConfig := monitoringv1.RelabelConfig{
+		TargetLabel: "cluster_name",
+		Replacement: c.clusterInfo.NamespacedName().Name,
+	}
+	serviceMonitor.Spec.Endpoints[0].RelabelConfigs = append(serviceMonitor.Spec.Endpoints[0].RelabelConfigs, &relabelConfig)
+
 	if _, err = k8sutil.CreateOrUpdateServiceMonitor(serviceMonitor); err != nil {
 		return errors.Wrap(err, "service monitor could not be enabled")
 	}
